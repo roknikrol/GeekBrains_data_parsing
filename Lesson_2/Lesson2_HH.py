@@ -4,18 +4,20 @@ import pandas as pd
 import re
 # hh
 vacancy_label = 'Data' + '+' + 'scientist'
-headers = {'User-agent' :'Mozilla/5.0'}
+# vacancy_label = input('Введите навзание вакансии: ')
+# vacancy_label = vacancy_label.replace(' ', '+')
+headers = headers = {'User-agent' :'Mozilla/5.0'}
 page = 0
-vacancies_list = []
+vacancies_list =[]
 while True:
     main_link = 'https://hh.ru/search/vacancy?L_is_autosearch=false&clusters=true&enable_snippets=true&text='
     html_link = main_link + vacancy_label + '&page=' + str(page)
 
     response = requests.get(html_link, headers=headers).text
     html_bs = bs(response, 'lxml')
-    html_bs_vacbody = html_bs.find('div', {'class' :'vacancy-serp'})
+    html_bs_vacbody = html_bs.find('div', {'class': 'vacancy-serp'})
 
-    for i in html_bs_vacbody :
+    for i in html_bs_vacbody:
         vacancies_dict = {}
         vac_name_a = i.find('a', {'class' :'bloko-link HH-LinkModifier'})
         try :
@@ -40,7 +42,7 @@ while True:
                     vac_compen_max = re.findall(r'[0-9]+', vac_compen.replace(' ', ''))[1]
                 else :
                     vac_compen_max = re.findall(r'[0-9]+', vac_compen.replace(' ', ''))[0]
-        except AttributeError :
+        except AttributeError:
             vac_compen = 0
             vac_compen_max = 0
             vac_compen_min = 0
@@ -54,17 +56,18 @@ while True:
         vacancies_dict['Currency'] = currency
         vacancies_dict['Hyperlink'] = vac_link
         vacancies_dict['Source'] = 'hh' if vac_link != '' else ''
-        vacancies_list.append(vacancies_dict)
+        if vacancies_dict['Name'] != 0:
+            vacancies_list.append(vacancies_dict)
 
-    vac_len = len(html_bs_vacbody)
-    if vac_len == 1:
+
+    if html_bs.find('a',{'class':'bloko-button HH-Pager-Controls-Next HH-Pager-Control'}) == None:
         break
-    # for i in vacancies_list :
-    #     print(vacancies_list)
     page += 1
+
+
 for i in vacancies_list:
     print(i)
-# writ to csv
-hh_df = pd.DataFrame(vacancies_list)
-hh_df.dropna()
-hh_df.to_csv('DS_vacancies1.csv', sep=';', encoding='windows-1251')
+# # writ to csv
+# hh_df = pd.DataFrame(vacancies_list)
+# hh_df.dropna()
+# hh_df.to_csv('DS_vacancies1.csv', sep=';', encoding='windows-1251')
