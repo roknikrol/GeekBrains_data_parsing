@@ -10,7 +10,7 @@ class MongoWrite:
     def vac_to_mongo(self):
         self.vacancies.insert_many(vac())
 
-# vac_var.vac_to_mongo()
+# vac_var.vac_to_mongo() # Запись в базу данных.
 
 vac()
 
