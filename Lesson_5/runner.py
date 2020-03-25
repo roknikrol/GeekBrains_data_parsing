@@ -1,9 +1,9 @@
 from scrapy.crawler import CrawlerProcess
 from scrapy.settings import Settings
 
-from jobparser import settings
-from jobparser.spiders.hhru import HhruSpider
-from jobparser.spiders.superjb import SuperjbSpider
+from Lesson_5.jobparser import settings
+from Lesson_5.jobparser import HhruSpider
+from Lesson_5.jobparser import SuperjbSpider
 
 if __name__=='__main__':
     crawler_settings = Settings() #create settings class

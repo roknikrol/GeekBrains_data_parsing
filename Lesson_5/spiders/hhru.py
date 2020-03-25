@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy.http import HtmlResponse
-from jobparser.items import JobparserItem
+from Lesson_5.jobparser import JobparserItem
 import re
 
 
